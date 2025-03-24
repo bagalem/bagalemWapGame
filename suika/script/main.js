@@ -1,0 +1,34 @@
+const { Bodies } = require("matter-js");
+
+var Engine = Matter.Engine,
+    Rander = Matter.Render,
+    Runner = Matter.Runner,
+    Bosies = Matter.Bodies,
+    World = Matter.World;
+
+const engine = Engine.create();
+
+const render = Rander.create({
+    engine,
+    element: document.body,
+    options: {
+        wireframes : false,
+        background : '#F7F4C8',
+        width : 620,
+        height:850,
+    }
+});
+
+const world = engine.world;
+
+const LeftWall = Bodies.rectangle(15,395, 30,790,{
+                            //x좌표, y좌표 width,hright
+    isStatic : true,
+    render: {fillStyle: '#E6B143'}                            
+});
+
+World.add(world, {LeftWall});
+
+
+Rander.run(rander);
+Rander.run(engine);
