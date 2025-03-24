@@ -1,14 +1,12 @@
-const { Bodies } = require("matter-js");
-
 var Engine = Matter.Engine,
-    Rander = Matter.Render,
+    Render = Matter.Render,
     Runner = Matter.Runner,
-    Bosies = Matter.Bodies,
+    Bodies = Matter.Bodies,
     World = Matter.World;
 
 const engine = Engine.create();
 
-const render = Rander.create({
+const render = Render.create({
     engine,
     element: document.body,
     options: {
@@ -30,5 +28,5 @@ const LeftWall = Bodies.rectangle(15,395, 30,790,{
 World.add(world, {LeftWall});
 
 
-Rander.run(rander);
-Rander.run(engine);
+Render.run(render);
+Runner.run(engine);
