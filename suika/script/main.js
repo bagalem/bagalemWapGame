@@ -1,3 +1,4 @@
+import {FRUITS} from "./fruits.js";
 
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -48,3 +49,19 @@ World.add(world, [LeftWall,RightWall,Ground,TopLine]);
 
 Render.run(render);
 Runner.run(engine);
+
+
+//과일을 추가하는 함수
+
+function addFruit(){
+    const fruit = FRUITS[0];
+    const body = Bodies.circle(300,50,fruit.radius,{
+        render:{
+            sprite: {texture : `${fruit.name}.png`}
+        }
+
+    });
+    World.add(world,body);
+}
+
+addFruit();
