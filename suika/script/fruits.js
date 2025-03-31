@@ -1,6 +1,6 @@
 const FRUITS= [
     {
-      name: "image/00_cherry",
+      name: "./image/00_cherry",
       radius: 33 / 2,
     },
     // name: "/suika/img/00_cherry", 다른 곳에서 작업할 경우 경로 확인

@@ -41,6 +41,7 @@ const Ground = Bodies.rectangle(310,820, 620,60,{
 const TopLine = Bodies.rectangle(310,150, 620,2,{
     //x좌표, y좌표 width,hright
     isStatic : true,
+    isSensor : true,
     render: {fillStyle: '#E6B143'}                            
 });
 
@@ -58,8 +59,8 @@ function addFruit(){
     const body = Bodies.circle(300,50,fruit.radius,{
         render:{
             sprite: {texture : `${fruit.name}.png`}
-        }
-
+        },
+        restitution : 0.4
     });
     World.add(world,body);
 }
