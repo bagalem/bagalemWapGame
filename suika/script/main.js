@@ -4,7 +4,8 @@ var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
-    World = Matter.World;
+    World = Matter.World,
+    Body = Matter.Body;
 
 const engine = Engine.create();
 
@@ -57,6 +58,9 @@ let currentFruit = null;
 
 //과일을 추가하는 함수
 
+//키 조작을 제어하는 변수
+let disableAction = false;
+
 function addFruit(){
     
 
@@ -73,6 +77,37 @@ function addFruit(){
     currentBody = body;
     currentFruit = fruit;
     World.add(world,body);
+}
+
+///키보드 입력 받기
+window.onkeydown = (event) =>{
+   
+    if(disableAction)
+        return;
+
+    switch(event.code){
+        case "KeyA":
+            Body.setPosition(currentBody,{
+                x: currentBody.position.x - 5,
+                y: currentBody.position.y
+            })
+            break;
+        case "KeyD":
+            Body.setPosition(currentBody,{
+                x: currentBody.position.x + 5,
+                y: currentBody.position.y
+            })
+            break;
+        case "Space":
+            currentBody.isSleeping = false;
+            disableAction = true
+            //addFruit();
+            //시간을 지연시키는 함수
+            setTimeout(() => {addFruit(); disableAction = false},1000);
+            break;
+
+    }
+    
 }
 
 addFruit();
