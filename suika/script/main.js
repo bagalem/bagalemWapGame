@@ -5,7 +5,8 @@ var Engine = Matter.Engine,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
     World = Matter.World,
-    Body = Matter.Body;
+    Body = Matter.Body,
+    Events = Matter.Events;
 
 const engine = Engine.create();
 
@@ -41,6 +42,7 @@ const Ground = Bodies.rectangle(310,820, 620,60,{
 });
 const TopLine = Bodies.rectangle(310,150, 620,2,{
     //x좌표, y좌표 width,hright
+    name : "TopLine",
     isStatic : true,
     isSensor : true,
     render: {fillStyle: '#E6B143'}                            
@@ -87,16 +89,20 @@ window.onkeydown = (event) =>{
 
     switch(event.code){
         case "KeyA":
-            Body.setPosition(currentBody,{
-                x: currentBody.position.x - 5,
-                y: currentBody.position.y
-            })
+            if(currentBody.position.x + currentFruit.radius > 30){
+                Body.setPosition(currentBody,{
+                    x: currentBody.position.x - 5,
+                    y: currentBody.position.y
+                })
+            }
             break;
         case "KeyD":
-            Body.setPosition(currentBody,{
-                x: currentBody.position.x + 5,
-                y: currentBody.position.y
-            })
+            if(currentBody.position.x + currentFruit.radius < 590){
+                Body.setPosition(currentBody,{
+                    x: currentBody.position.x + 5,
+                    y: currentBody.position.y
+                })
+            }
             break;
         case "Space":
             currentBody.isSleeping = false;
@@ -109,5 +115,36 @@ window.onkeydown = (event) =>{
     }
     
 }
+
+Events.on(engine,"collisionStart",(event) => {
+    event.pairs.forEach((collision) => {
+        //같은 과일일 경우
+        if(collision.bodyA.index == collision.bodyB.index){
+            //지우기 전에 해당 과일값을 저장
+            const index = collision.bodyA.index
+
+            if(index == FRUITS.length - 1)
+                return
+
+            World.remove(world,[collision.bodyA,collision.bodyB])
+            const newFruit = FRUITS[index + 1]
+            const newBody = Bodies.circle(
+                collision.collision.supports[0].x,
+                collision.collision.supports[0].y,
+                newFruit.radius,{index : index + 1,
+                render:{
+                    sprite: {texture : `${newFruit.name}.png`}
+                }   
+            })
+
+            World.add(world, newBody)
+        }
+
+        if(collision.bodyA.name === "TopLine" || collision.bodyB.name === "TopLine"){
+            alert("GameOver");
+            disableAction = true;
+        }
+    })
+})
 
 addFruit();
