@@ -11,6 +11,8 @@ class Sprite{
     constructor({position, velocity}){
         this.position = position;
 
+        this.velocity = velocity;
+
         this.width = 50;
         this.height = 150;
     }
@@ -19,6 +21,12 @@ class Sprite{
         c.fillStyle = "red";
         c.fillRect(this.position.x,this.position.y, this.width,this.height);
     }
+
+    update(){
+        this.draw();
+
+        this.position.y += this.velocity.y;
+    }
 }
 
 const player = new Sprite({
@@ -26,6 +34,34 @@ const player = new Sprite({
         x: 0,
         y: 0,
     },
+    velocity:{
+        x: 0,
+        y: 10,
+    },
 })
 
-player.draw();
+const enemy =  new Sprite({
+    position: {
+        x: 300,
+        y: 100,
+    },
+    velocity:{
+        x: 0,
+        y: 10,
+    },
+})
+
+
+
+function aninmate(){
+    window.requestAnimationFrame(aninmate);
+
+    c.fillStyle = "black";
+    c.fillRect(0,0,Canvas.width,Canvas.height);
+
+    player.update();
+    enemy.update();
+
+}
+
+aninmate();
